@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "target": "ES2016",
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
-    "allowJs": true
+    "allowJs": true,
+    "esModuleInterop": true
   }
 }
