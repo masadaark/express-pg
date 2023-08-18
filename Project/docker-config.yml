@@ -4,9 +4,9 @@ services:
     container_name: "express_server"
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
-        buildStage: docker
+        buildStage: development
     entrypoint:
       - bash
       - ./run.sh

@@ -13,7 +13,7 @@ export const getDB = () => {
     return db
 }
 
-export const setUpDB = () => {
+export const setUpDB = async () => {
     const dsn: string = buildConnectionString(getAppConfig().connection.postgresql)
     try {
         const connectionOptions = {
@@ -23,11 +23,14 @@ export const setUpDB = () => {
         }
 
         db = pgp(connectionOptions)
+        await db.connect();
+        console.log('Database connection established successfully.');
     } catch (error) {
         console.error('Failed to connect to the database:', error);
         throw error;
     }
 }
+
 
 function buildConnectionString(config: PostgresqlConfig): string {
     return `postgres://${config.user}:${config.password}@${config.host}:${config.port}/${config.database}`;

@@ -1,0 +1,22 @@
+FROM node:18
+
+ARG buildStage
+ARG environment="alpha"
+ARG jettVersion="latest"
+ARG dockerport=3000
+ENV PROJECT_VERSION $jettVersion
+ENV BUILD_STAGE $buildStage
+ENV ENVIRONMENT $environment
+ENV DOCKER_PORT $dockerport
+
+
+RUN mkdir /jett
+COPY . /jett
+WORKDIR /jett
+
+RUN npm install
+RUN sed -i 's/\r$//' run.bash
+RUN sed -i 's/\r$//' run-dev.bash
+
+EXPOSE $dockerport
+# RUN npm run build
