@@ -4,6 +4,7 @@ import { setUpRouter } from "./controllers/router.api"
 import { setUpConfig } from "./config/env.config"
 
 const app: Application = express()
+const port: number = Number(process.env.DOCKER_PORT) || 3000;
 
 setUpConfig()
 
@@ -11,4 +12,4 @@ setUpDB()
 
 setUpRouter(app)
 
-app.listen(8080, () => console.log("Server is running..."))
+app.listen(port, () => console.log("Server is running..."))

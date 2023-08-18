@@ -6,24 +6,24 @@ services:
       context: .
       dockerfile: Dockerfile-dev
       args:
-        buildStage: development
+        buildStage: regression
     entrypoint:
       - bash
       - ./run.sh
     ports:
-      - "9999:8080"
+      - "9777:3000"
     depends_on:
       postgres_express_server:
         condition: service_healthy
     links:
       - postgres_express_server:pgsql_express_server
-      - express_server_wiremock:wiremock
+      # - express_server_wiremock:wiremock
     network_mode: bridge
   postgres_express_server:
     container_name: "postgres_express_server"
     image: postgres
     ports:
-      - "5999:5432"
+      - "5777:5432"
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=postgres
@@ -35,8 +35,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  express_server_wiremock:
-    image: rodolpheche/wiremock
-    ports:
-      - "8888:8080"
-    network_mode: bridge
+  # express_server_wiremock:
+  #   image: rodolpheche/wiremock
+  #   ports:
+  #     - "8888:3000"
+  #   network_mode: bridge
