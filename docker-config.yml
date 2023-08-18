@@ -1,0 +1,42 @@
+version: "2.4"
+services:
+  express_server:
+    container_name: "express_server"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        buildStage: docker
+    entrypoint:
+      - bash
+      - ./run.sh
+    ports:
+      - "9999:8080"
+    depends_on:
+      postgres_express_server:
+        condition: service_healthy
+    links:
+      - postgres_express_server:pgsql_express_server
+      - express_server_wiremock:wiremock
+    network_mode: bridge
+  postgres_express_server:
+    container_name: "postgres_express_server"
+    image: postgres
+    ports:
+      - "5999:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin@1234
+      - POSTGRES_DB=ngernturbo
+    network_mode: bridge
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  express_server_wiremock:
+    image: rodolpheche/wiremock
+    ports:
+      - "8888:8080"
+    network_mode: bridge

@@ -1,21 +1,14 @@
-import express, { Request, Response } from "express"
-import { Query } from "express-serve-static-core"
+import express, { Application } from "express"
+import { setUpDB } from "./config/db.config"
+import { setUpRouter } from "./controllers/router.api"
+import { setUpConfig } from "./config/env.config"
 
-const app = express()
+const app: Application = express()
 
-app.get("/", (_req, res) => {
-    res.json({ result: "Http status is ok" })
-})
+setUpConfig()
 
-export type Test = { message: string }
+setUpDB()
 
-export interface TypeRequestQuery<T extends Query> {
-    query: T
-}
+setUpRouter(app)
 
-app.get("/test", (req: TypeRequestQuery<Test>, res: Response) => {
-    res.json(req.query)
-})
-
-
-app.listen(3000, () => console.log("Server is running..."))
+app.listen(8080, () => console.log("Server is running..."))
