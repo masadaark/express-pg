@@ -9,7 +9,7 @@ services:
         buildStage: regression
     entrypoint:
       - bash
-      - ./run.sh
+      - ./run-dev.bash
     ports:
       - "9777:3000"
     depends_on:
