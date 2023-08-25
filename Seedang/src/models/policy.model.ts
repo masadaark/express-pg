@@ -3,5 +3,5 @@ export interface PolicyTable {
     insurance_id: number,
     policId: number,
     policy_url: string,
-    created_at: Date
+    created_at?: Date
 }

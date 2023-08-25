@@ -7,6 +7,16 @@ export interface PersonTable {
     city: string,
     county: string,
     portal_code: string,
-    updated_by:number,
+    updated_by?:number,
     created_at?: Date,
+}
+
+export interface PersonInfomation {
+    firstName: string,
+    lastName: string
+    phone: string,
+    address: string,
+    city: string,
+    county: string,
+    portalCode: string,
 }
