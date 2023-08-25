@@ -3,7 +3,7 @@ import express from 'express';
 const router = Router();
 router.use(express.json())
 
-export const healthCheckRout = (app: Application): void => {
+export const userRout = (app: Application): void => {
     app.use('/user', router)
 }
 

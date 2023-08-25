@@ -1,4 +1,4 @@
-export interface Healthcheck {
+export interface HealthcheckTable {
     status: string;
     id: number;
 }

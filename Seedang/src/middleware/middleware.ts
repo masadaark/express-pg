@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { ErrorMiddleware } from '../models/middleware.model';
 import { s } from './error';
 
-const unauthorized: ErrorMiddleware = (err, _req, res, next) => {
+const unauthorized: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.UNAUTHORIZED) return next(err);
     res.status(s.UNAUTHORIZED).json({
         ok: false,
@@ -10,7 +10,7 @@ const unauthorized: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const forbidden: ErrorMiddleware = (err, _req, res, next) => {
+const forbidden: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.FORBIDDEN) return next(err);
     res.status(s.FORBIDDEN).json({
         ok: false,
@@ -18,7 +18,7 @@ const forbidden: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const conflict: ErrorMiddleware = (err, _req, res, next) => {
+const conflict: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.CONFLICT) return next(err);
     res.status(s.CONFLICT).json({
         ok: false,
@@ -26,7 +26,7 @@ const conflict: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const badRequest: ErrorMiddleware = (err, _req, res, next) => {
+const badRequest: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.BAD_REQUEST) return next(err);
     res.status(s.BAD_REQUEST).json({
         ok: false,
@@ -34,7 +34,7 @@ const badRequest: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const unprocessable: ErrorMiddleware = (err, _req, res, next) => {
+const unprocessable: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.UNPROCESSABLE) return next(err);
     res.status(s.UNPROCESSABLE).json({
         ok: false,
@@ -42,7 +42,7 @@ const unprocessable: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const notFound: ErrorMiddleware = (err, _req, res, next) => {
+const notFound: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.NOT_FOUND) return next(err);
     res.status(s.NOT_FOUND).json({
         ok: false,
@@ -50,7 +50,7 @@ const notFound: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const genericError: ErrorMiddleware = (err, _req, res, next) => {
+const genericError: ErrorMiddleware = (err, _req, res, next):void => {
     if (err.status !== s.GENERIC_ERROR) return next(err);
     res.status(s.GENERIC_ERROR).json({
         ok: false,
@@ -58,7 +58,7 @@ const genericError: ErrorMiddleware = (err, _req, res, next) => {
     });
 };
 
-const catchall = (_req: Request, res: Response) => {
+const catchall = (_req: Request, res: Response):void => {
     res.status(s.NOT_FOUND).json({
         ok: false,
         errorMessage: 'The requested resource could not be found',
