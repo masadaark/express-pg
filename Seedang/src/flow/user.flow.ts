@@ -7,9 +7,15 @@ export class UserFlow {
         const user = await db.select().from("seedang.user").where("email", "=", email);
         return user.length ? user[0].id : undefined;
     }
-    static async Insert(insertRow:UserTable): Promise<number> {
-        const db = getDB();
-        const [insertedUser] = await db.insert([insertRow]).into('seedang.user').returning('*');
-        return insertedUser.id
+    static async Insert(insertRow: UserTable[]): Promise<number> {
+        const trx = await getDB().transaction();
+        try {
+            const [insertedUser] = await trx.insert(insertRow).into('seedang.user').returning('*');
+            await trx.commit();
+            return insertedUser.id;
+        } catch (error) {
+            await trx.rollback();
+            console.error(error);
+        }
     }
 }

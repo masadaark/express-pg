@@ -17,7 +17,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const emailExists = await UserFlow.checkUser(request.email)
         if (emailExists) return res.json({ token: jwtSign(emailExists) })
-        res.json({ token: jwtSign(await UserFlow.Insert(mapUserToUserTable(request)))})
+        res.json({ token: jwtSign(await UserFlow.Insert([mapUserToUserTable(request)]))})
     } catch (err) {
         console.error(err);
         next(createError({
