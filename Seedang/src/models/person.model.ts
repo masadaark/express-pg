@@ -3,11 +3,12 @@ export interface PersonTable {
     first_name: string,
     last_name: string
     phone: string,
+    birth_date: Date,
     address: string,
     city: string,
     county: string,
     portal_code: string,
-    updated_by?:number,
+    updated_by?: number,
     created_at?: Date,
 }
 
@@ -15,6 +16,7 @@ export interface PersonInfomation {
     firstName: string,
     lastName: string
     phone: string,
+    birthDate: Date,
     address: string,
     city: string,
     county: string,
