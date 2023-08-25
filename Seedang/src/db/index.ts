@@ -19,7 +19,7 @@ export async function setUpDB() {
             max: 10
         },
     });
-    await db.schema.createSchema("seedang").catch(err=> console.error(err))
+    await db.schema.createSchemaIfNotExists("seedang").catch(err=> console.error(err))
     await db.migrate.latest();
     console.log('Migrated success!!');
     await db.seed.run();
