@@ -8,9 +8,10 @@ export const healthCheckRout = (app: Application): void => {
     app.use('/healthcheck', router)
 }
 
-router.get('/', (_req: Request, res: Response, next: NextFunction) => {
+router.get('/', (req: Request, res: Response, next: NextFunction) => {
     HealthcheckFlow.findOneById(1)
         .then((healthcheck) => {
+            // console.log("userId:"+req["userId"])
             res.json(healthcheck)
         }).catch(next)
 })
