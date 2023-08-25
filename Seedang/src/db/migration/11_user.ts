@@ -4,7 +4,7 @@ export async function up(db: Knex): Promise<void> {
   await db.schema.withSchema('seedang').createTable('user', (table) => {
     table.bigIncrements('id').primary();
     table.string('email').unique().notNullable();
-    table.string('phone').unique().notNullable();
+    table.string('phone').notNullable();
     table.string('first_name').nullable();
     table.string('last_name').nullable();
     table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
