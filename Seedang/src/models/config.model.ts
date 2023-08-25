@@ -8,6 +8,7 @@ export interface PostgresqlConfig {
 
 export interface ConnectionConfig {
     postgresql: PostgresqlConfig;
+    serverport:number
 }
 
 export interface AppConfig {

@@ -1,0 +1,17 @@
+### register
+POST http://localhost:3000/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"admin1",
+    "password":"1234"
+}
+
+
+### getuser
+GET http://localhost:9777/user HTTP/1.1
+Content-Type: application/json
+
+### healthcheck
+GET http://localhost:9777/healthcheck HTTP/1.1
+Content-Type: application/json

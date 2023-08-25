@@ -6,12 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile-dev
       args:
-        buildStage: regression
+        buildStage: testing
     entrypoint:
       - bash
       - ./run-dev.bash
     ports:
-      - "9777:3000"
+      - "9777:8080"
     depends_on:
       postgres_express_server:
         condition: service_healthy
@@ -25,6 +25,7 @@ services:
     ports:
       - "5777:5432"
     environment:
+      - POSTGRES_URL=postgres://postgres:admin@1234@postgres_express_server:5432/ngernturbo
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin@1234

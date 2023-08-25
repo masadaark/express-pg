@@ -12,7 +12,7 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
-        'no-console': ['warn', { allow: ['warn', 'error'] }],
+        // 'no-console': ['warn', { allow: ['warn', 'error'] }],
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': [
             'warn',
@@ -23,5 +23,9 @@ module.exports = {
                 argsIgnorePattern: '^_',
             },
         ],
+        'no-duplicate-case': 'error',
+        'no-dupe-else-if': 'error',
+        'no-dupe-args': 'error',
+        'eqeqeq': 'warn',
     },
 };

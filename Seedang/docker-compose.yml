@@ -1,0 +1,23 @@
+﻿version: '3.4'
+services:
+  seedang_express_server:
+    container_name: 'seedang_express_server'
+    build:
+      dockerfile: Dockerfile-dev-local
+      context: .
+      args:
+        APP_ENV: Development
+    ports:
+      - "8380:8080"
+    environment:
+      - PostGres_URL=jdbc:postgresql://postgres:5432/handsomeguy
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=handsomeguy
+    external_links:
+      - postgres:postgres
+    entrypoint:
+      - bash 
+      - ./run-dev-local.bash
+    network_mode: bridge
