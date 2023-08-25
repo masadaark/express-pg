@@ -1,9 +1,15 @@
-export interface User {
+export interface UserTable {
     id?: number,
-    username: string,
-    password: string,
-    level?: number,
-    is_enabled:  boolean,
+    email: string,
+    phone: string,
+    first_name?: string,
+    last_name?: string
     created_at?: Date,
-    updateed_at?: Date,
+}
+
+export interface User {
+    email: string,
+    phone: string,
+    firstName?: string,
+    lastName?: string
 }
