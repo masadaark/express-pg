@@ -1,3 +1,4 @@
+import { Knex } from "knex";
 import { getDB } from "../db";
 import { UserTable } from "../models/user.model";
 
@@ -8,7 +9,7 @@ export class UserFlow {
         return user.length ? user[0].id : undefined;
     }
     static async Insert(insertRow: UserTable[]): Promise<number> {
-        const trx = await getDB().transaction();
+        const trx: Knex.Transaction = await getDB().transaction();
         try {
             const [insertedUser] = await trx.insert(insertRow).into('seedang.user').returning('*');
             await trx.commit();
