@@ -13,7 +13,7 @@ async function startServer() {
     setUpMiddleWare(app)
     const serverPort = appConfig().connection.serverport;
     app.listen(serverPort, () => {
-      console.log(`Server is running ...`);
+      console.log(`Server is running port :${serverPort}`);
     });
   } catch (error) {
     console.error("An error occurred while starting the server:", error);

@@ -9,8 +9,13 @@ Content-Type: application/json
 
 
 ### getuser
-GET http://localhost:9777/user HTTP/1.1
+POST http://localhost:3000/user HTTP/1.1
 Content-Type: application/json
+
+{
+    "email":"sudtae54@gmail.com",
+    "phone":"0887888887"
+}
 
 ### healthcheck
 GET http://localhost:9777/healthcheck HTTP/1.1

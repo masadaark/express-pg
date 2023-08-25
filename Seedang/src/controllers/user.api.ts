@@ -16,7 +16,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const emailExists = await UserFlow.checkUser(request.email)
         if (emailExists) return res.json({ id: emailExists })
-        res.json({ id: await UserFlow.Insert(mapUserToUserTable(request)) })
+        res.json({ id:  await UserFlow.Insert(mapUserToUserTable(request))})
     } catch (err) {
         console.error(err);
         next(createError({
