@@ -66,16 +66,23 @@ export class CraeteOrderFlow{
         const resulatOrder = await getDB().insert(orderSave).into("seedang.order").returning('*')
         return {orderId : resulatOrder[0].id}
     }
-    // async CreateInsurance(req: CreateInsurance, userId: number) {
-    //     const transactionSave = OrderCreateLogic.maptransaction(userId, 2);
-    //     const resultTransactionSave = (await getDB().insert([transactionSave]).into("seedang.transaction").returning('*'))[0];
-    //     for (const obj of req.persons) {
-    //         const ownerPerson = OrderCreateLogic.mapByPerson(obj.person);
-    //         let insurancePerson : PersonTable;
-    //         const insurancePerson = (await getFromQuery("select p.* from seedang.person p where p.id_card = "+ obj.person.idCard + " or p.passport = "+ obj.person.passport))[0];
-    //         if(!insurancePerson){
-    //             insurancePerson = (await getDB().insert(OrderCreateLogic.mapByPerson(obj.person)).into("seedang.person").returning('*'))[0];
-    //         }
-    //     }
+}
+
+    async CreateInsurance(req: CreateInsurance, userId: number) {
+        const transactionSave = OrderCreateLogic.maptransaction(userId, 2);
+        const resultTransactionSave = (await getDB().insert([transactionSave]).into("seedang.transaction").returning('*'))[0];
+        // const order : OrderTable = await getFromQuery("select p.* from seedang.order p where p.id = " + req.OrderId);
+        for (const obj of req.persons) {
+            const insurancePerson = (await getFromQuery("select p.* from seedang.person p where p.id_card = "+ obj.person.idCard + " or p.passport = "+ obj.person.passport));
+            if(!insurancePerson){
+                insurancePerson[0] = (await getDB().insert(OrderCreateLogic.mapByPerson(obj.person)).into("seedang.person").returning('*'));
+            }
+            const benefitPerson = (await getFromQuery("select p.* from seedang.person p where p.id_card = "+ obj.benefitPerson.idCard + " or p.passport = "+ obj.benefitPerson.passport));
+            if(!benefitPerson){
+                benefitPerson[0] = (await getDB().insert(OrderCreateLogic.mapByPerson(obj.benefitPerson)).into("seedang.person").returning('*'));
+            }
+            await getDB().insert(OrderCreateLogic.mapInsurance(req.OrderId, insurancePerson[0].id, benefitPerson[0].id)).into("seedang.person").returning('*')
+        }
+        // await getDB().insert(OrderCreateLogic.mapOrderBalance()).into("seedang.person").returning('*')
     }
 }

@@ -1,3 +1,4 @@
+import { InsuranceTable } from '../models/insurance.model';
 import { OrderTable, OrderStatusHistoryTable, OrderBalanceTable, CreateOrderModel } from '../models/order.model';
 import { PersonInfomation, PersonTable } from '../models/person.model';
 import { TransactionTable } from '../models/transaction.model'
@@ -76,6 +77,14 @@ export class OrderCreateLogic {
             if (requestPersons.passport) person.id_card = requestPersons.passport;
             return person
         }
+    }
+    static mapInsurance(orderId: number, owner: number, benefit:number): InsuranceTable {
+        const insurance : InsuranceTable = {
+            order_id : orderId,
+            owner_person_id : owner,
+            benefit_persob_id :benefit
+        }
+        return insurance;
     }
 }
 
