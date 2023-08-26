@@ -13,7 +13,7 @@ export function jwtSign(userId: number): string {
 }
 
 export function jwtVerify(req, res: Response, next: NextFunction) {
-  const tokenString = req.headers['Authorization']?.split(' ')[1] || '';
+  const tokenString:string = req.query?.token
   jwt.verify(tokenString, secretKey, (err, decoded) => {
     if (err) return res.json({ result: 'nok', errorMessage: err.message });
     const claims = decoded as JwtPayload;
