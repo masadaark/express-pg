@@ -3,10 +3,11 @@ import { setUpRouter } from "./controllers/router.api";
 import { appConfig, setUpConfig } from "./config/env.config";
 import { setUpDB } from "./db";
 import { setUpMiddleWare } from "./middleware/middleware";
-
+import cors from 'cors'
 async function startServer() {
   try {
     const app: Application = express();
+    app.use(cors({ origin: '*' }));
     setUpConfig();
     await setUpDB();
     setUpRouter(app);
