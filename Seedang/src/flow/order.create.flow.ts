@@ -1,9 +1,6 @@
 import { OrderCreateLogic } from "../logic/order.create.logic";
-import { CreateInsurance } from "../models/insurance.model";
 import { getDB, getFromQuery } from '../db/index'
-import { TransactionTable } from "../models/transaction.model";
-import { OrderTable, OrderStatusHistoryTable , OrderBalanceTable, CreateOrderModel} from "../models/order.model";
-import { PersonTable } from "../models/person.model";
+import { OrderTable , CreateOrderModel} from "../models/order.model";
 import { CoverageTable } from "../models/coverage.model";
 
 export class CraeteOrderFlow{
