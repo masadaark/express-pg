@@ -9,13 +9,9 @@ export interface InsuranceTable {
     created_at?: Date,
 }
 
-export interface InsuranceOrder {
-    originCountry?: string,
-    destinationCountry?: string,
-    startDate?: Date;
-    endDate?: Date;
-    insuranceDetails?: InsuranceDetail[];
-    package?: InsurancePackage
+export interface CreateInsurance {
+    OrderId?: number,
+    persons?: InsuranceDetail[];
 }
 
 export interface InsuranceDetail {

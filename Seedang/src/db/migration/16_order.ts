@@ -9,7 +9,7 @@ export async function up(db: Knex): Promise<void> {
     table.timestamp('end_date').nullable();
     table.bigInteger('user_id').notNullable();
     table.string('package_name').notNullable();
-    table.decimal('price').notNullable();
+    table.decimal('package_price').notNullable();
     table.integer('income_rate_id').notNullable();
     table.foreign('income_rate_id').references('id').inTable('seedang.income_rate');
     table.integer('coverage_id').notNullable();
