@@ -3,7 +3,6 @@ import { CreateInsurance } from "../models/insurance.model";
 import { getDB, getFromQuery } from '../db/index'
 import { CoverageTable } from "../models/coverage.model";
 import { CreateOrderModel, OrderTable } from "../models/order.model";
-import { get } from "http";
 
 export class CraeteOrderFlow{
     async CreateOrder(req: CreateOrderModel, userId: number) : Promise<{ orderId: number; }> {

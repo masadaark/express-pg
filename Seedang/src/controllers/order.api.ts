@@ -45,21 +45,4 @@ router.post('/insurance', async (req: Request, res: Response, next: NextFunction
             message: "An error occurred while processing the request"
         }));
     }
-})
-// router.post('/payment', async (req: Request, res: Response, next: NextFunction) => {
-//     try{
-//         const request : InsuranceOrder = req.body;
-//         const userId : number = Number(req.query.id);
-//         new CraeteOrderFlow().process(request, userId)
-//             .then(raw => {
-//                 res.json(raw)
-//             })
-//     }
-//     catch(error){
-//         console.error(error);
-//         next(createError({
-//             status: s.BAD_REQUEST,
-//             message: "An error occurred while processing the request"
-//         }));
-//     }
-// })
+}) 
