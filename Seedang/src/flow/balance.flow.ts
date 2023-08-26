@@ -1,6 +1,6 @@
 import { getDB } from "../db";
 
-export class PaymentFlow {
+export class BalanceFlow {
     static async getBalanceByOrderId(orderId: number) {
         return await getDB()
             .select()
