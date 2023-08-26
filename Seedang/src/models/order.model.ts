@@ -8,19 +8,19 @@ export interface OrderTable {
 export interface OrderStatusHistoryTable {
     id?: number
     status_id: number
-    order_id: Date
-    outdated_by: number
+    order_id?: number
+    outdated_by?: number
     transaction_id?: number
     created_at?: Date
 }
 
 export interface OrderBalanceTable {
     id?: number
-    order_id: number
+    order_id?: number
     amount: number
     balance: number
-    outdated_by: number
-    transaction_id: number
+    outdated_by?: number
+    transaction_id?: number
     created_at?: Date
 }
 

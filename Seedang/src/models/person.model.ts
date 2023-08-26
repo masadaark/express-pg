@@ -1,7 +1,9 @@
 export interface PersonTable {
     id?: number,
     first_name: string,
-    last_name: string
+    last_name: string,
+    id_card?: string,
+    passport?: string,
     phone: string,
     birth_date: Date,
     address: string,
@@ -14,7 +16,9 @@ export interface PersonTable {
 
 export interface PersonInfomation {
     firstName: string,
-    lastName: string
+    lastName: string,
+    idCard: string,
+    passport: string,
     phone: string,
     birthDate: Date,
     address: string,

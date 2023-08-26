@@ -12,21 +12,23 @@ export interface InsuranceTable {
     benefit_persob_id: number,
     package_name: string,
     price: number,
-    created_at: Date,
+    created_at?: Date,
     rate_income_id: number,
     coverage_id: number
 }
 
 export interface InsuranceOrder {
-    startDate: Date;
-    endDate: Date;
-    insuranceDetails: InsuranceDetail[]
+    originCountry?: string,
+    destinationCountry?: string,
+    startDate?: Date;
+    endDate?: Date;
+    insuranceDetails?: InsuranceDetail[];
+    package?: InsurancePackage
 }
 
 export interface InsuranceDetail {
     person: PersonInfomation
     benefitPerson: PersonInfomation
-    package: InsurancePackage
 }
 
 export interface InsurancePackage {
