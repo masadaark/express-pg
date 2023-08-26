@@ -25,7 +25,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
             .then(raw => {
                 res.json(raw)
             })
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         next(createError({
             status: s.BAD_REQUEST,
@@ -69,10 +69,9 @@ router.get('/status', async (req: Request, res: Response, next: NextFunction) =>
     try {
         await OrderFlow.GetOrderState(req['userId'])
             .then(raw => {
-                if (!raw.length || raw.every(member => dayjs(member.startDate).startOf('date').isBefore(dayjs().startOf('date')))) {
-                    return res.json([])
-                }
-                return res.json(raw)
+                if (!raw.length) return res.json([])
+                const orderList = raw.filter(member => dayjs(member.startDate).startOf('date').isBefore(dayjs().startOf('date')))
+                return res.json(orderList)
             })
 
     } catch (err) {
