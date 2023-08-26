@@ -2,12 +2,13 @@ import { Application, Router, NextFunction, Request, Response } from "express";
 import express from 'express';
 import { createError, s } from '../middleware/error';
 import { jwtVerify } from "../intercepter/jwt.interceptor";
-import { CraeteOrderFlow } from "../flow/order.create.flow";
+import { OrderFlow } from "../flow/order.flow";
 import { CreateOrderModel } from "../models/order.model";
 import { CreateInsurance } from "../models/insurance.model";
 import { PaymentFlow } from "../flow/payment.flow";
 import { PolicyFlow } from "../flow/policy.flow";
 import dayjs from "dayjs";
+import { OrderCreateLogic } from "../logic/order.create.logic";
 const router = Router();
 router.use(express.json())
 
@@ -19,13 +20,12 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const request: CreateOrderModel = req.body;
         const userId: number = req['userId'];
-        new CraeteOrderFlow().CreateOrder(request, userId)
+        await OrderFlow.CreateOrder(request, userId)
             .catch(err => next(err))
             .then(raw => {
                 res.json(raw)
             })
-    }
-    catch (error) {
+    }catch (error) {
         console.error(error);
         next(createError({
             status: s.BAD_REQUEST,
@@ -33,19 +33,27 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         }));
     }
 })
-router.post('/insurance', (req: Request, res: Response, next: NextFunction) => {
-
+router.post('/insurance', async (req: Request, res: Response, next: NextFunction) => {
     const request: CreateInsurance = req.body;
     const userId: number = req['userId'];
-    new CraeteOrderFlow().CreateInsurance(request, userId)
-        .catch((err) => {
-            next(err);
-        }).then(raw => {
-            res.json(raw)
-        })
+    try {
+        await OrderCreateLogic.validUserId(userId, request.orderId)
+    } catch (err) {
+        return next(err)
+    }
+    try {
+        res.json(await OrderFlow.CreateInsurance(request, userId))
+    } catch (err) {
+        return next(err)
+    }
 })
 
 router.post('/payment', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await OrderCreateLogic.validUserId(req['userId'], req.body.orderId)
+    } catch (err) {
+        return next(err)
+    }
     try {
         await PaymentFlow.payment(req.body, req['userId'])
         try {
@@ -56,11 +64,10 @@ router.post('/payment', async (req: Request, res: Response, next: NextFunction) 
     } catch (err) {
         return next(err)
     }
-}
-)
+})
 router.get('/status', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await new CraeteOrderFlow().GetOrderState(req['userId'])
+        await OrderFlow.GetOrderState(req['userId'])
             .then(raw => {
                 if (!raw.length || raw.every(member => dayjs(member.startDate).startOf('date').isBefore(dayjs().startOf('date')))) {
                     return res.json([])

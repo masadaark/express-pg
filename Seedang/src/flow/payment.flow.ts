@@ -9,14 +9,17 @@ import { OrderBalanceTable } from "../models/order.model";
 export class PaymentFlow {
     static async payment(paymentReq: PaymentRequest, userId: number) {
         const lastBalance = await BalanceFlow.getBalanceByOrderId(paymentReq.orderId);
-        if (!lastBalance.length ) throw createError({
-            status: s.BAD_REQUEST,
-            message: "ไม่พบ order ค้างชำระในระบบ"
-        });
-        if(lastBalance[0].balance === 0) throw createError({
-            status: s.BAD_REQUEST,
-            message: "ไม่พบ order ค้างชำระในระบบ"
-        });
+        if (!lastBalance.length ){
+            throw createError({
+                status: s.BAD_REQUEST,
+                message: "ไม่พบ order ค้างชำระในระบบ"
+            });
+        }if(Number(lastBalance[0].balance) === 0){
+            throw createError({
+                status: s.BAD_REQUEST,
+                message: "ไม่พบ order ค้างชำระในระบบ"
+            });
+        }
         const transaction = OrderCreateLogic.maptransaction(userId, t.Payment.id);
         if (paymentReq.full_paid) {
             await getDB().transaction(async trx => {
