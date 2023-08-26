@@ -1,5 +1,4 @@
-import { InsuranceOrder, InsuranceTable } from '../models/insurance.model';
-import { OrderTable, OrderStatusHistoryTable, OrderBalanceTable } from '../models/order.model';
+import { OrderTable, OrderStatusHistoryTable, OrderBalanceTable, CreateOrderModel } from '../models/order.model';
 import { PersonInfomation, PersonTable } from '../models/person.model';
 import { TransactionTable } from '../models/transaction.model'
 
@@ -12,9 +11,18 @@ export class OrderCreateLogic {
         }
         return transaction;
     }
-    static mapOrder(userId: number): OrderTable {
+    static mapOrder(requestorder:CreateOrderModel,userId: number, incomeRate:number, coverageId:number, transactionId: number): OrderTable {
         const order: OrderTable = {
-            user_id: userId
+            user_id: userId,
+            origin_country: requestorder.originCountry,
+            destination_country: requestorder.destinationCountry,
+            start_date: requestorder.startDate,
+            end_date: requestorder.endDate,
+            package_name: requestorder.package.packageName,
+            package_price: Number(requestorder.package.packagePrice.value),
+            income_rate_id:incomeRate,
+            coverage_id: coverageId,
+            transaction_id: transactionId
         }
         return order;
     }
@@ -68,22 +76,6 @@ export class OrderCreateLogic {
             if (requestPersons.passport) person.id_card = requestPersons.passport;
             return person
         }
-    }
-    static mapInsurance(req: InsuranceOrder, ownerPerson: number, benefitPerson: number, orderId: number, rate_income_id: number, coverage_id:number): InsuranceTable {
-        const insuranceSave : InsuranceTable = {
-            order_id: orderId,
-            origin_country : req.originCountry,
-            destination_country : req.destinationCountry,
-            start_date : req.startDate,
-            end_date : req.endDate,
-            package_name : req.package.packageName,
-            price: Number(req.package.packagePrice),
-            owner_person_id: ownerPerson,
-            benefit_persob_id:  benefitPerson,
-            rate_income_id: rate_income_id,
-            coverage_id: coverage_id
-        }
-        return insuranceSave;
     }
 }
 
