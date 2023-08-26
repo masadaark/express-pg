@@ -18,4 +18,12 @@ export class InsuranceFlow {
             .whereIn("id", personIds);
         return { insurance: insurances, person: persons };
     }
+    static async validInsurance(orderId: number): Promise<boolean> {
+        const db = getDB();
+        const insurances: InsuranceTable[] = await db
+            .select('*')
+            .from("seedang.insurance")
+            .where('order_id', '=', orderId);
+       return insurances.length > 0
+    }
 }

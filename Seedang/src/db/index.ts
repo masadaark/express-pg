@@ -4,7 +4,7 @@ import { appConfig } from "../config/env.config";
 
 let db: Knex;
 
-export async function setUpDB() {
+const newConnection = () => {
     const pgConnection = appConfig().connection.postgresql;
     db = knex({
         client: 'pg',
@@ -19,7 +19,11 @@ export async function setUpDB() {
             max: 10
         },
     });
-    await db.schema.createSchemaIfNotExists("seedang").catch(err=> console.error(err))
+}
+
+export async function setUpDB() {
+    newConnection()
+    await db.schema.createSchemaIfNotExists("seedang").catch(err => console.error(err))
     await db.migrate.latest();
     console.log('Migrated success!!');
     await db.seed.run();
@@ -27,6 +31,7 @@ export async function setUpDB() {
 }
 
 export const getDB = (): Knex => {
+    if(!db) newConnection()
     return db
 }
 

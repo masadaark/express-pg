@@ -7,6 +7,7 @@ import { CreateOrderModel } from "../models/order.model";
 import { CreateInsurance } from "../models/insurance.model";
 import { PaymentFlow } from "../flow/payment.flow";
 import { PolicyFlow } from "../flow/policy.flow";
+import dayjs from "dayjs";
 const router = Router();
 router.use(express.json())
 
@@ -19,6 +20,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         const request: CreateOrderModel = req.body;
         const userId: number = req['userId'];
         new CraeteOrderFlow().CreateOrder(request, userId)
+        .catch(err => next(err))
             .then(raw => {
                 res.json(raw)
             })
@@ -36,13 +38,10 @@ router.post('/insurance', (req: Request, res: Response, next: NextFunction) => {
     const request: CreateInsurance = req.body;
     const userId: number = req['userId'];
     new CraeteOrderFlow().CreateInsurance(request, userId)
-        .then(raw => {
+    .catch((err) => {
+        next(err);
+    }).then(raw => {
             res.json(raw)
-        }).catch(() => {
-            next(createError({
-                status: s.BAD_REQUEST,
-                message: "An error occurred while processing the request"
-            }));
         })
 })
 
@@ -63,6 +62,9 @@ router.get('/status', async (req: Request, res: Response, next: NextFunction) =>
     try {
         await new CraeteOrderFlow().GetOrderState(req['userId'])
             .then(raw => {
+                if(raw.every(chrild=> dayjs(chrild.startDate).startOf('date').isBefore(dayjs().startOf('date')))){
+                   return res.json([])
+                }
                 res.json(raw)
             })
 
