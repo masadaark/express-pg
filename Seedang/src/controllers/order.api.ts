@@ -1,7 +1,6 @@
 import { Application, Router, NextFunction, Request, Response } from "express";
 import express from 'express';
 import { createError, s } from '../middleware/error';
-import { InsuranceOrder } from "../models/insurance.model";
 import { jwtVerify } from "../intercepter/jwt.interceptor";
 import { CraeteOrderFlow } from "../flow/order.create.flow";
 import { CreateOrderModel } from "../models/order.model";
