@@ -20,7 +20,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         const request: CreateOrderModel = req.body;
         const userId: number = req['userId'];
         new CraeteOrderFlow().CreateOrder(request, userId)
-        .catch(err => next(err))
+            .catch(err => next(err))
             .then(raw => {
                 res.json(raw)
             })
@@ -38,9 +38,9 @@ router.post('/insurance', (req: Request, res: Response, next: NextFunction) => {
     const request: CreateInsurance = req.body;
     const userId: number = req['userId'];
     new CraeteOrderFlow().CreateInsurance(request, userId)
-    .catch((err) => {
-        next(err);
-    }).then(raw => {
+        .catch((err) => {
+            next(err);
+        }).then(raw => {
             res.json(raw)
         })
 })
@@ -62,14 +62,13 @@ router.get('/status', async (req: Request, res: Response, next: NextFunction) =>
     try {
         await new CraeteOrderFlow().GetOrderState(req['userId'])
             .then(raw => {
-                if(raw.every(chrild=> dayjs(chrild.startDate).startOf('date').isBefore(dayjs().startOf('date')))){
-                   return res.json([])
+                if (!raw.length || raw.every(member => dayjs(member.startDate).startOf('date').isBefore(dayjs().startOf('date')))) {
+                    return res.json([])
                 }
-                res.json(raw)
+                return res.json(raw)
             })
 
     } catch (err) {
         return next(err)
     }
-}
-)
+})

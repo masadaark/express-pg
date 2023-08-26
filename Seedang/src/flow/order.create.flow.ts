@@ -81,8 +81,7 @@ export class CraeteOrderFlow {
                 'logorder.order_id',
                 'o.id'
             )
-            .where('o.user_id', userId)
-            .catch(error => {
+            .where('o.user_id', userId).catch(error => {
                 console.error(error);
                 throw createError({ status: s.UNPROCESSABLE });
             })
