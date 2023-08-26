@@ -70,7 +70,7 @@ router.get('/status', async (req: Request, res: Response, next: NextFunction) =>
         await OrderFlow.GetOrderState(req['userId'])
             .then(raw => {
                 if (!raw.length) return res.json([])
-                const orderList = raw.filter(member => dayjs(member.startDate).startOf('date').isBefore(dayjs().startOf('date')))
+                const orderList = raw.filter(member => dayjs(member.startDate).startOf('date').isAfter(dayjs().startOf('date')))
                 return res.json(orderList)
             })
 
