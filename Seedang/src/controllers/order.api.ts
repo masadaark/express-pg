@@ -57,4 +57,17 @@ router.post('/payment', async (req: Request, res: Response, next: NextFunction) 
     } catch (err) {
         return next(err)
     }
-})
+}
+)
+router.get('/status', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await new CraeteOrderFlow().GetOrderState(req['userId'])
+            .then(raw => {
+                res.json(raw)
+            })
+
+    } catch (err) {
+        return next(err)
+    }
+}
+)

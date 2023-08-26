@@ -45,3 +45,14 @@ export interface CreateOrderModel {
     endDate?: Date;
     package?: InsurancePackage
 }
+
+export interface OrderStateDetail{
+    orderId: number,
+    state: number,
+    stateName: string,
+    destination_country: string
+    origin_country: string
+    start_date: Date
+    end_date: Date
+    package_name: string
+}
