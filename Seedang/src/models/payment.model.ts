@@ -1,4 +1,4 @@
 export interface PaymentRequest {
-    order: number,
+    orderId: number,
     full_paid: boolean
 }
