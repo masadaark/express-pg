@@ -9,7 +9,7 @@ export async function up(db: Knex): Promise<void> {
     table.foreign('order_id').references('id').inTable('seedang.order');
     table.bigInteger('outdated_by').nullable();
     table.foreign('outdated_by').references('id').inTable('seedang.log_order_status')
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
     table.bigInteger('transaction_id').notNullable();
     table.foreign('transaction_id').references('id').inTable('seedang.transaction')
   });

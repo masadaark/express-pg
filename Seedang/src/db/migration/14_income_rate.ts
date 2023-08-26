@@ -7,7 +7,7 @@ export async function up(db: Knex): Promise<void> {
     table.decimal('rate').notNullable();
     table.timestamp('start_date').notNullable();
     table.timestamp('expire_date').notNullable();
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
     table.timestamp('updated_at').nullable();
 
     console.log(`create table income_rate success`)

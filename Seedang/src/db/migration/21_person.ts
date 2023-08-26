@@ -5,6 +5,7 @@ export async function up(db: Knex): Promise<void> {
     table.bigIncrements('id').primary();
     table.string('first_name').notNullable();
     table.string('last_name').notNullable();
+    table.string('title').notNullable();
     table.string('phone').notNullable();
     table.string('id_card').nullable();
     table.string('passport').nullable();
@@ -13,7 +14,7 @@ export async function up(db: Knex): Promise<void> {
     table.string('city').notNullable();
     table.string('county').notNullable();
     table.string('portal_code').notNullable();
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
     table.bigInteger('updated_by').nullable();
   });
   console.log(`create table person success`)

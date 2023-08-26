@@ -16,3 +16,7 @@ export function setUpConfig() {
 export const appConfig = (): AppConfig => {
     return config
 }
+
+export const externalService = ()=>{
+    return config.connection.externalservice
+}

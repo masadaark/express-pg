@@ -7,7 +7,7 @@ export async function up(db: Knex): Promise<void> {
     table.foreign('insurance_id').references('id').inTable('seedang.insurance')
     table.string('policy_number').notNullable();
     table.string('policy_url').notNullable();
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
   });
   await db.schema.raw(
     'CREATE INDEX index_insurance_id_on_policy ON seedang.policy USING hash (insurance_id);'

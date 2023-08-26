@@ -62,6 +62,7 @@ export class OrderCreateLogic {
             const person : PersonTable = {
                 first_name: requestPersons.firstName,
                 last_name: requestPersons.lastName,
+                title:requestPersons.title,
                 phone: requestPersons.phone,
                 birth_date: requestPersons.birthDate,
                 address: requestPersons.address,

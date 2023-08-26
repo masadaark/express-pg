@@ -7,7 +7,7 @@ export async function up(db: Knex): Promise<void> {
     table.foreign('user_id').references('id').inTable('seedang.user');
     table.integer('transaction_code_id');
     table.foreign('transaction_code_id').references('id').inTable('seedang.transaction_code');
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
   });
   await db.schema.raw(
     'CREATE INDEX index_user_id_on_transaction ON seedang.transaction USING hash (user_id);'

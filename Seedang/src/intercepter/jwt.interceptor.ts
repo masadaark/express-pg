@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import { UserFlow } from '../flow/user.flow';
 
 const secretKey = 'lubsudyord1234';
 
@@ -14,11 +15,17 @@ export function jwtSign(userId: number): string {
 export function jwtVerify(req: Request, res: Response, next: NextFunction) {
   const tokenString = req.headers.authorization?.split(' ')[1] || '';
   jwt.verify(tokenString, secretKey, (err, decoded) => {
-    if (err) return res.status(200).json({ result: 'nok', error: err.message });
+    if (err) return res.json({ result: 'nok', errorMessage: err.message });
     const claims = decoded as JwtPayload;
     if (claims) {
-      req['userId'] = Number(claims['id']);
-      next()
-    } else return res.status(200).json({ result: 'nok', error: 'invalid token' });
-  });
+      const userId:number = Number(claims['id'])
+      UserFlow.getUserById(userId).then(user=>{
+        if(!user.length) return res.json({ result: 'nok', errorMessage: 'invalid user' });
+        req['userId'] = Number(claims['id']);  
+        next()
+      })
+    } else{
+      return res.json({ result: 'nok', errorMessage: 'invalid token' });
+    }
+  })
 }

@@ -7,7 +7,7 @@ export async function up(db: Knex): Promise<void> {
     table.string('phone').notNullable();
     table.string('first_name').nullable();
     table.string('last_name').nullable();
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
   });
   await db.schema.raw(
     'CREATE INDEX index_eamil_on_user ON seedang.user USING hash (email);'

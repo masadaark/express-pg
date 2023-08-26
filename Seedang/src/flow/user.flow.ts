@@ -8,6 +8,11 @@ export class UserFlow {
         const user = await db.select().from("seedang.user").where("email", "=", email);
         return user.length ? user[0].id : undefined;
     }
+    static async getUserById(id: number): Promise<UserTable[]> {
+        const db = getDB();
+        const user = await db.select().from("seedang.user").where("id", "=", id);
+        return user;
+    }
     static async Insert(insertRow: UserTable[]): Promise<number> {
         const trx: Knex.Transaction = await getDB().transaction();
         try {

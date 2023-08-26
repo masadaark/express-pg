@@ -15,7 +15,7 @@ export async function up(db: Knex): Promise<void> {
     table.integer('coverage_id').notNullable();
     table.foreign('coverage_id').references('id').inTable('seedang.coverage');
     table.foreign('user_id').references('id').inTable('seedang.user');
-    table.timestamp('create_at', { useTz: false}).defaultTo(db.fn.now());
+    table.timestamp('created_at', { useTz: false}).defaultTo(db.fn.now());
     table.bigInteger('transaction_id').notNullable();
     table.foreign('transaction_id').references('id').inTable('seedang.transaction');
   });

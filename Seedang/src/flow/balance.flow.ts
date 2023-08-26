@@ -5,8 +5,8 @@ export class BalanceFlow {
     static async getBalanceByOrderId(orderId: number): Promise<OrderBalanceTable[]> {
         return await getDB()
             .select()
-            .from("seedang.balance")
+            .from("seedang.order_balance")
             .where("order_id", "=", orderId)
-            .andWhere("outdated_by", '=', null);
+            .andWhere("outdated_by","is", null);
     }
 }
