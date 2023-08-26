@@ -49,11 +49,11 @@ router.post('/insurance', (req: Request, res: Response, next: NextFunction) => {
 router.post('/payment', async (req: Request, res: Response, next: NextFunction) => {
     try {
         await PaymentFlow.payment(req.body, req['userId'])
-    } catch (err) {
-        next(err)
-    }
-    try {
-        return res.json(await PolicyFlow.apply(req.body.orderId, req['userId']))
+        try {
+            return res.json(await PolicyFlow.apply(req.body.orderId, req['userId']))
+        } catch (err) {
+            return next(err)
+        }
     } catch (err) {
         return next(err)
     }

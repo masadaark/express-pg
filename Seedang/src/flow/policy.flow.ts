@@ -72,13 +72,17 @@ export class PolicyFlow {
                     relationship: ""
                 }
             }
-            console.log(policyAppy)
-            // const responsePolicy = (await axios.post(externalService().insurancepolicy, policyAppy)).data
-            // policySave.push({
-            //     insurance_id: insurance.id,
-            //     policy_number: responsePolicy.policyId,
-            //     policy_url: responsePolicy.policyDocumentFileUrl,
-            // })
+            const responsePolicy = (await axios.post(externalService().insurancepolicy, policyAppy, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    apiKey: "TURBOHACK2023"
+                }
+            })).data
+            policySave.push({
+                insurance_id: insurance.id,
+                policy_number: responsePolicy.policyId,
+                policy_url: responsePolicy.policyDocumentFileUrl,
+            })
         }
         return policySave
     }
