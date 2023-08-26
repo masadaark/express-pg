@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJleHAiOjE2OTQwMjk1OTgsImlhdCI6MTY5MzAyOTU5OH0.LUQ3f8Lomz6AHi6I7If1imFErya2aIGorJRudW9olKk
 
 {
-    "orderId":1,
+    "orderId":2,
     "full_paid":true
 }
 
@@ -19,14 +19,14 @@ Content-Type: application/json
 }
 
 ### healthcheck
-POST http://localhost:3000/order HTTP/1.1
+POST http://localhost:9777/order HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJleHAiOjE2OTQwMjk1OTgsImlhdCI6MTY5MzAyOTU5OH0.LUQ3f8Lomz6AHi6I7If1imFErya2aIGorJRudW9olKk
 
 {
     "originCountry": "TH",
     "destinationCountry": "BKK",
-    "startDate": "2023-08-24",
+    "startDate": "2023-08-28",
     "endDate": "2023-08-29",
     "package": {
         "packageName": "ECONOMY",
