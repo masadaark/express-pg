@@ -5,12 +5,12 @@ export interface InsuranceTable {
     id?: number,
     order_id: number,
     owner_person_id: number,
-    benefit_persob_id: number,
+    benefit_person_id: number,
     created_at?: Date,
 }
 
 export interface CreateInsurance {
-    OrderId?: number,
+    orderId?: number,
     persons?: InsuranceDetail[];
 }
 
