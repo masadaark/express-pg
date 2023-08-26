@@ -27,16 +27,12 @@ export class OrderCreateLogic {
         }
         return order;
     }
-    static mapLogOrderStatus(statusId: number): OrderStatusHistoryTable {
-        const logOrderStatus: OrderStatusHistoryTable = {
-            status_id: statusId,
-        }
-        return logOrderStatus;
-    }
-    static mapOrderBalance(amount: number, balance: number): OrderBalanceTable {
+    static mapOrderBalance(amount: number, balance: number, orderId:number, transactionId: number): OrderBalanceTable {
         const orderBalance: OrderBalanceTable = {
             amount: amount,
             balance: balance,
+            order_id: orderId,
+            transaction_id: transactionId 
         }
         return orderBalance;
     }
@@ -82,9 +78,17 @@ export class OrderCreateLogic {
         const insurance : InsuranceTable = {
             order_id : orderId,
             owner_person_id : owner,
-            benefit_persob_id :benefit
+            benefit_person_id :benefit
         }
         return insurance;
+    }
+    static maplogOrderStatus(status: number, orderId: number, transaction:number): OrderStatusHistoryTable {
+        const logOrder : OrderStatusHistoryTable = {
+            status_id: status,
+            order_id: orderId,
+            transaction_id: transaction
+        }
+        return logOrder;
     }
 }
 

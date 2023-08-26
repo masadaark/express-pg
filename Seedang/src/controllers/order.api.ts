@@ -4,6 +4,7 @@ import { createError, s } from '../middleware/error';
 import { jwtVerify } from "../intercepter/jwt.interceptor";
 import { CraeteOrderFlow } from "../flow/order.create.flow";
 import { CreateOrderModel } from "../models/order.model";
+import { CreateInsurance } from "../models/insurance.model";
 const router = Router();
 router.use(express.json())
 
@@ -28,23 +29,23 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
         }));
     }
 })
-// router.post('/insurance', async (req: Request, res: Response, next: NextFunction) => {
-//     try{
-//         const request : InsuranceOrder = req.body;
-//         const userId : number = Number(req.query.id);
-//         new CraeteOrderFlow().process(request, userId)
-//             .then(raw => {
-//                 res.json(raw)
-//             })
-//     }
-//     catch(error){
-//         console.error(error);
-//         next(createError({
-//             status: s.BAD_REQUEST,
-//             message: "An error occurred while processing the request"
-//         }));
-//     }
-// })
+router.post('/insurance', async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const request : CreateInsurance = req.body;
+        const userId : number = req['userId'];
+        new CraeteOrderFlow().CreateInsurance(request, userId)
+            .then(raw => {
+                res.json(raw)
+            })
+    }
+    catch(error){
+        console.error(error);
+        next(createError({
+            status: s.BAD_REQUEST,
+            message: "An error occurred while processing the request"
+        }));
+    }
+})
 // router.post('/payment', async (req: Request, res: Response, next: NextFunction) => {
 //     try{
 //         const request : InsuranceOrder = req.body;

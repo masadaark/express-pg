@@ -16,9 +16,9 @@ export async function up(db: Knex): Promise<void> {
   await db.schema.raw(
     'CREATE INDEX index_order_id_on_log_order_status ON seedang.log_order_status USING hash (order_id); CREATE INDEX index_transaction_id_on_log_order_status ON seedang.log_order_status USING hash (transaction_id);'
   );
-  await db.schema.raw(
-    'CREATE UNIQUE INDEX seedang_order_id_outdated_by_idx ON seedang.log_order_status USING btree (order_id, outdated_by); CREATE UNIQUE INDEX seedang_outdated_by_idx ON seedang.log_order_status USING btree (outdated_by) where outdated_by is not null;'
-  );
+  // await db.schema.raw(
+  //   'CREATE UNIQUE INDEX seedang_order_id_outdated_by_idx ON seedang.log_order_status USING btree (order_id, outdated_by); CREATE UNIQUE INDEX seedang_outdated_by_idx ON seedang.log_order_status USING btree (outdated_by) where outdated_by is not null;'
+  // );
   console.log(`create table log_order_status success`)
 }
 
