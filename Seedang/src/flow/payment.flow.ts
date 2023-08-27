@@ -5,16 +5,16 @@ import { BalanceFlow } from "./balance.flow";
 import t from '../enum/transaction.enum'
 import ors from '../enum/orderstatus.enum'
 import { getDB } from "../db";
-import { OrderBalanceTable } from "../models/order.model";
+import { OrderBalanceTable, OrderTable } from "../models/order.model";
 export class PaymentFlow {
     static async payment(paymentReq: PaymentRequest, userId: number) {
         const lastBalance = await BalanceFlow.getBalanceByOrderId(paymentReq.orderId);
-        if (!lastBalance.length ){
+        if (!lastBalance.length) {
             throw createError({
                 status: s.BAD_REQUEST,
                 message: "ไม่พบ order ค้างชำระในระบบ"
             });
-        }if(Number(lastBalance[0].balance) === 0){
+        } if (Number(lastBalance[0].balance) === 0) {
             throw createError({
                 status: s.BAD_REQUEST,
                 message: "ไม่พบ order ค้างชำระในระบบ"
@@ -43,7 +43,7 @@ export class PaymentFlow {
                         .andWhere('outdated_by', 'is', null).orderBy('created_at', 'asc').limit(1).update({ outdated_by: newLog.id });
                     await trx.commit()
                 } catch {
-                   await trx.rollback()
+                    await trx.rollback()
                 }
             });
         } else {
@@ -52,5 +52,20 @@ export class PaymentFlow {
                 message: "ระบบรองรับเฉพาะชำระเต็มจำนวน"
             });
         }
+    }
+    static async balance(userId: number) {
+        const db = getDB()
+        const orders: OrderTable[] = await db.select().from("seedang.order").where("user_id", "=", userId)
+        if (!orders.length) return [];
+        const balanceOrders: OrderBalanceTable[] = await db.select().from("seedang.order_balance")
+        .whereIn("order_id", [...new Set(orders.map(obj => obj.id))])
+        .andWhere("outdated_by","is", null);
+        if (!balanceOrders.length) return [];
+        return balanceOrders.map(obj => {
+             return {
+                balance: obj.balance,
+                orederId: obj.order_id
+            }
+        })
     }
 }

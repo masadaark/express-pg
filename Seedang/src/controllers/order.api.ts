@@ -65,6 +65,19 @@ router.post('/payment', async (req: Request, res: Response, next: NextFunction) 
         return next(err)
     }
 })
+
+router.get('/payment', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const paymentList = await PaymentFlow.balance(req['userId'])
+        res.json(paymentList)
+    } catch (err) {
+        return next(createError({
+            status:400,
+            message:"ไม่สามารถดูยอดค้างชำระได้"
+        }))
+    }
+})
+
 router.get('/status', async (req: Request, res: Response, next: NextFunction) => {
     try {
         await OrderFlow.GetOrderState(req['userId'])
