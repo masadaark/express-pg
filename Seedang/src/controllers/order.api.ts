@@ -91,3 +91,15 @@ router.get('/status', async (req: Request, res: Response, next: NextFunction) =>
         return next(err)
     }
 })
+
+router.get('/policy', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const responseGetPolicy = await PolicyFlow.getByUserId(req['userId'])
+        return res.json(responseGetPolicy)
+    } catch (err) {
+        return next(createError({
+            status:400,
+            message:"เกิดข้อผิดพลาด ไม่สามารถเอกสารได้"
+        }))
+    }
+})

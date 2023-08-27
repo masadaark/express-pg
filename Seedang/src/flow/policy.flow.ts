@@ -11,6 +11,8 @@ import { UserFlow } from './user.flow';
 import { PolicyLogic } from "../logic/policy.logic";
 import axios from "axios";
 import { externalService } from "../config/env.config";
+import { getDB } from "../db";
+import { createError } from "../middleware/error";
 
 export class PolicyFlow {
     static async apply(orderId: number, userId: number) {
@@ -78,12 +80,45 @@ export class PolicyFlow {
                     apiKey: "TURBOHACK2023"
                 }
             })).data
-            policySave.push({
+            const policyInsert: PolicyTable = {
                 insurance_id: insurance.id,
                 policy_number: responsePolicy.policyId,
                 policy_url: responsePolicy.policyDocumentFileUrl,
-            })
+            }
+            policySave.push(policyInsert)
+            try {
+                await getDB().insert([policyInsert]).into("seedang.policy").returning('*');
+            } catch (err) {
+                console.error(err)
+                throw createError({
+                    status: 400,
+                    message: `ไม่สามารถบันทึก policy insuranceId ${insurance.id} ได้`
+                })
+            }
         }
         return policySave
+    }
+    static async getByUserId(userId: number) {
+        const db = getDB()
+        const orders: OrderTable[] = await db.select().from("seedang.order").where("user_id", "=", userId)
+        if (!orders.length) return [];
+        const orderIds: number[] = [...new Set(orders.map(order => order.id))]
+        const insurances: InsuranceTable[] = await db.select('*')
+            .from("seedang.insurance")
+            .whereIn('order_id', orderIds);
+        if (!insurances.length) return [];
+        const policys: PolicyTable[] = await db.select('*')
+            .from("seedang.policy")
+            .whereIn('insurance_id', [...new Set(insurances.map(insurance => insurance.id))]);
+        if (!policys.length) return [];
+        return orderIds.map(orderId => {
+            const insuranceIdOrder: number[] = insurances
+                .filter(insurance => Number(insurance.order_id) === Number(orderId))
+                .map(insurance => insurance.id)
+            return {
+                orderId: orderId,
+                policys: policys.filter(policy => insuranceIdOrder.includes(policy.insurance_id))
+            }
+        })
     }
 }
